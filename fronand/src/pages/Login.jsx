@@ -17,7 +17,15 @@ const Login = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", form);
       localStorage.setItem("token", res.data.token);
-      navigate("/profile");
+
+      const role = res.data.user.role;
+
+      // ✅ Redirect to role-based dashboard
+      if (role === "admin") navigate("/admin-dashboard");
+      else if (role === "master-distributor") navigate("/master-dashboard");
+      else if (role === "distributor") navigate("/distributor-dashboard");
+      else navigate("/retailer-dashboard");
+
     } catch (err) {
       setError("Invalid credentials");
     }

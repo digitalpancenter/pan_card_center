@@ -8,8 +8,9 @@ const authMiddleware = require("../middleware/auth"); // ✅ Corrected path
 const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 
 // ✅ Register
+// ✅ Updated Register Route
 router.post("/register", async (req, res) => {
-  const { name, email, password, mobile, address } = req.body;
+  const { name, email, password, mobile, address, role } = req.body; // role included
 
   try {
     const existingUser = await User.findOne({ email });
@@ -23,6 +24,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
       mobile,
       address,
+      role, // ✅ Save role here
     });
 
     await newUser.save();
@@ -33,6 +35,7 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // ✅ Login
 router.post("/login", async (req, res) => {
@@ -49,14 +52,15 @@ router.post("/login", async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.json({
-      token,
-      user: {
-        name: user.name,
-        email: user.email,
-        wallet: user.wallet,
-      },
-    });
+  res.json({
+  token,
+  user: {
+    name: user.name,
+    email: user.email,
+    wallet: user.wallet,
+    role: user.role, // ✅ Include role in response
+  },
+});
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ message: "Server error" });
