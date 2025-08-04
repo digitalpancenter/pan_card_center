@@ -12,7 +12,11 @@ const userSchema = new mongoose.Schema({
   },
   mobile: { type: String, default: "" },
   address: { type: String, default: "" },
+  aadharNumber: { type: String, default: "" },
+  panNumber: { type: String, default: "" },
   photo: { type: String, default: "" },
+  isActive: { type: Boolean, default: true },
+  isBlocked: { type: Boolean, default: false },
   otp: String,
   otpExpires: Date,
 });

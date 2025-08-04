@@ -23,6 +23,10 @@ import PanCard from "./pages/PanCard"; // adjust path if needed
 import InterestPANApply from "./pages/InterestPANApply";
 import InterestPANUpdate from "./pages/InterestPANUpdate";
 
+//admin page 
+import AdminDashboard from "./admin/AdminDashboard";
+import AllUsers from "./admin/AllUsers";
+
 const HomePage = () => (
   <>
     <Navbar />
@@ -116,6 +120,28 @@ export default function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/admin-dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <AdminDashboard />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin-dashboard/all-users"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <AllUsers />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+
       </Routes>
     </Router>
   );

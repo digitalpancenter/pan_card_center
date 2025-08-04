@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const adminRoutes = require("./routes/admin");
 const authRoutes = require("./routes/auth");
 const walletRoutes = require("./routes/wallet");
 // In index.js or app.js
@@ -12,7 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", adminRoutes);
+app.use("/api/admin", authRoutes);
 app.use("/api/wallet", walletRoutes);
 app.use("/api/transactions", transactionsRoute);
 

@@ -73,5 +73,18 @@ router.get("/profile", authMiddleware, async (req, res) => {
   res.json(req.user);
 });
 
+router.get("/all-users", authMiddleware, /* adminMiddleware, */ async (req, res) => {
+  try {
+    // DB se saare users fetch karo, password hata ke
+    const users = await User.find().select("-password").sort({ name: 1 }); // A to Z sort by name
+
+    res.json(users);
+  } catch (err) {
+    console.error("Error fetching all users:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 
 module.exports = router;
