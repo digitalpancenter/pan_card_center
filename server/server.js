@@ -4,21 +4,19 @@ const cors = require("cors");
 require("dotenv").config();
 
 const adminRoutes = require("./routes/admin");
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth");           // handles register/login
 const walletRoutes = require("./routes/wallet");
-// In index.js or app.js
-const transactionsRoute = require("./routes/transactions"); // Update path as needed
+const transactionsRoute = require("./routes/transactions");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", adminRoutes);
-app.use("/api/admin", authRoutes);
+// ✅ Correct mounting
+app.use("/api/auth", authRoutes);     
+app.use("/api/admin", adminRoutes);   
 app.use("/api/wallet", walletRoutes);
 app.use("/api/transactions", transactionsRoute);
-
-
 
 const PORT = process.env.PORT || 5000;
 
