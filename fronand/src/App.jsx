@@ -26,6 +26,7 @@ import InterestPANUpdate from "./pages/InterestPANUpdate";
 //admin page 
 import AdminDashboard from "./admin/AdminDashboard";
 import AllUsers from "./admin/AllUsers";
+import Newadduser from "./admin/Newadduser";
 
 const HomePage = () => (
   <>
@@ -137,6 +138,16 @@ export default function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <AllUsers />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+         <Route
+          path="/newadduser"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <Newadduser />
               </DashboardLayout>
             </PrivateRoute>
           }

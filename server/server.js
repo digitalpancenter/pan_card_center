@@ -10,11 +10,20 @@ const transactionsRoute = require("./routes/transactions");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
+<<<<<<< HEAD
 // ✅ Correct mounting
 app.use("/api/auth", authRoutes);     
 app.use("/api/admin", adminRoutes);   
+=======
+// 🛠 Increase body size limit
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+// Mount routes
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+>>>>>>> 211bb68 (your message)
 app.use("/api/wallet", walletRoutes);
 app.use("/api/transactions", transactionsRoute);
 

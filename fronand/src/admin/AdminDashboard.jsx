@@ -15,22 +15,46 @@ const AdminDashboard = () => {
         >
           All Users
         </button>
-        <button className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-          All Add User
+
+        <button
+          onClick={() => navigate("/newadduser")}
+          className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+        >
+          Add New User
         </button>
-        <button className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded">
+
+        <button
+          onClick={() => navigate("/manual-pan-apply")}
+          className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded"
+        >
           All Manual PAN Card Apply
         </button>
-        <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">
+
+        <button
+          onClick={() => navigate("/manual-pan-update")}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded"
+        >
           All Manual PAN Card Update
         </button>
-        <button className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded">
+
+        <button
+          onClick={() => navigate("/interest-pan-apply")}
+          className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded"
+        >
           All Interest PAN Card Apply
         </button>
-        <button className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded">
+
+        <button
+          onClick={() => navigate("/interest-pan-update")}
+          className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded"
+        >
           All Interest PAN Card Update
         </button>
-        <button className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+
+        <button
+          onClick={() => navigate("/mobile-recharges")}
+          className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+        >
           All Mobile Recharge
         </button>
       </div>
