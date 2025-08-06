@@ -34,14 +34,13 @@ const PanCard = () => {
         >
           Interest PAN Update
         </button>
-
+      </div>
         <button
           onClick={handlManualpanappy}
           className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow transition duration-200"
         >
           PAN CARD APPY
         </button>
-      </div>
     </div>
   );
 };

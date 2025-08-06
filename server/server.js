@@ -11,6 +11,7 @@ const panApplyRoute = require("./routes/panApply"); // ✅ correct path
 const panApplicationsRoute = require("./routes/panApplications");
 
 const panUpdateRoute = require("./routes/panUpdate");
+const ManualpanappyRoute = require("./routes/Manualpanappy");
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use("/api/pan-apply", panApplyRoute)
 console.log("PAN Apply route loaded"); // just before: app.use("/api/pan-apply", panApplyRoute);
 app.use("/api/pan-update", panUpdateRoute);  // ✅ Important line
 app.use("/api/pan-applications", panApplicationsRoute);
-
+app.use("/api/Manualpanappy", ManualpanappyRoute);
 
 
 const PORT = process.env.PORT || 5000;

@@ -62,21 +62,22 @@ const Form49AHeader = () => {
       </div>
 
       {/* Signature Box */}
-      <div className="w-[3.5cm] h-[1.1cm] border border-black text-center text-xs flex-col justify-center items-center">
-        Signature / Left Thumb Impression
-        <div className="w-[3.5cm] h-[2.50cm] border border-black text-center text-xs flex-col justify-center items-center">
-       
+<div className="flex gap-4 mt-6">
+        {/* Left Side Text */}
+        <div className="flex-1 text-sm leading-6">
+          <p>Sir,</p>
+          <p className="mt-1">
+            I/We hereby request that a permanent account number be allotted to me/us.<br />
+            I/We give below necessary particulars:
+          </p>
         </div>
-        
-      </div>
 
-      {/* Sir paragraph */}
-      <div className="mt-2 text-sm">
-        <p>Sir,</p>
-        <p className="mt-1">
-          I/We hereby request that a permanent account number be allotted to me/us.<br />
-          I/We give below necessary particulars:
-        </p>
+        {/* Right Side Signature Box */}
+        <div className="w-[300px] h-[100px] border border-black flex flex-col justify-end">
+          <div className="border-t border-black text-center h-[20px] text-xs italic flex items-center justify-center">
+            Signature / Left Thumb Impression
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -41,36 +41,54 @@ const PanForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/api/pan-application', form);
-      alert('Form submitted successfully');
-      setForm({
-        lastName: '',
-        firstName: '',
-        nameOnCard: '',
-        gender: '',
-        dob: '',
-        parentType: '',
-        parentName: '',
-        addressType: '',
-        address: '',
-        mobile: '',
-        email: '',
-        aadhaar: '',
-        aadhaarName: '',
-        incomeSource: '',
-        identityProof: '',
-        addressProof: '',
-        dobProof: '',
-        applicantStatus: '', // ✅ Reset
-      });
-    } catch (err) {
-      console.error(err);
-      alert('Submission failed');
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      'http://localhost:5000/api/Manualpanappy',
+      form,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert(
+      `${response.data.message}\nReference No: ${response.data.referenceNumber}`
+    );
+
+    // Clear form
+    setForm({
+      lastName: '',
+      firstName: '',
+      nameOnCard: '',
+      gender: '',
+      dob: '',
+      parentType: '',
+      parentName: '',
+      addressType: '',
+      address: '',
+      mobile: '',
+      email: '',
+      aadhaar: '',
+      aadhaarName: '',
+      incomeSource: '',
+      identityProof: '',
+      addressProof: '',
+      dobProof: '',
+      applicantStatus: '',
+    });
+  } catch (err) {
+    console.error(err);
+    alert(
+      err.response?.data?.message || 'Submission failed. Please try again.'
+    );
+  }
+};
+
+
 
   return (
     <div className='pandetal'>
