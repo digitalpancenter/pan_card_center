@@ -22,11 +22,14 @@ import RetailerDashboard from "./pages/RetailerDashboard";
 import PanCard from "./pages/PanCard"; // adjust path if needed
 import InterestPANApply from "./pages/InterestPANApply";
 import InterestPANUpdate from "./pages/InterestPANUpdate";
+import Manualpanappy from "./pages/Manualpanappy";
+import PanForm49A from "./pages/PanForm49A";
 
 //admin page 
 import AdminDashboard from "./admin/AdminDashboard";
 import AllUsers from "./admin/AllUsers";
 import Newadduser from "./admin/Newadduser";
+import AllInterestPanCardList from "./admin/Allinterestpancardlist";
 
 const HomePage = () => (
   <>
@@ -91,6 +94,16 @@ export default function App() {
     </PrivateRoute>
   }
 />
+<Route
+  path="/manualpanappy"
+  element={
+    <PrivateRoute>
+      <DashboardLayout>
+        <Manualpanappy />
+      </DashboardLayout>
+    </PrivateRoute>
+  }
+/>
         <Route
           path="/profile"
           element={
@@ -121,6 +134,17 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/panaorm49A"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <PanForm49A />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+
 
         <Route
           path="/admin-dashboard"
@@ -148,6 +172,16 @@ export default function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <Newadduser />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+         <Route
+          path="/allinterestpancardlist"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <AllInterestPanCardList />
               </DashboardLayout>
             </PrivateRoute>
           }

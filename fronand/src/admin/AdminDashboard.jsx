@@ -24,6 +24,13 @@ const AdminDashboard = () => {
         </button>
 
         <button
+          onClick={() => navigate("/allinterestpancardlist")}
+          className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+        >
+          All Interest PAN Card List
+        </button>
+
+        <button
           onClick={() => navigate("/manual-pan-apply")}
           className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded"
         >
