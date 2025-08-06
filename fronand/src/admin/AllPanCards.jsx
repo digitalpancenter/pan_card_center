@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Pencil, Trash2, X } from "lucide-react"; // lucide-react icons
+import { Pencil, Trash2, X } from "lucide-react";
 
 const AllPanCards = () => {
   const [pans, setPans] = useState([]);
   const [error, setError] = useState("");
   const [editingPan, setEditingPan] = useState(null);
   const [editForm, setEditForm] = useState({});
+  const [editFiles, setEditFiles] = useState({});
 
   const token = localStorage.getItem("token");
 
@@ -27,38 +28,56 @@ const AllPanCards = () => {
   }, []);
 
   const handleDelete = async (id) => {
-  try {
-    console.log("Trying to delete ID:", id);
-    await axios.delete(`http://localhost:5000/api/pan-apply/${id}`);
-    alert("Deleted successfully");
-    fetchPans(); // ✅ Correct function
-  } catch (error) {
-    console.error("Delete failed:", error);
-    alert("Failed to delete. Check console for details.");
-  }
-};
-
-
+    try {
+      await axios.delete(`http://localhost:5000/api/pan-apply/${id}`);
+      alert("Deleted successfully");
+      fetchPans();
+    } catch (error) {
+      console.error("Delete failed:", error);
+      alert("Failed to delete. Check console for details.");
+    }
+  };
 
   const handleEditClick = (pan) => {
     setEditingPan(pan);
-    setEditForm({ ...pan }); // pre-fill
+    setEditForm({ ...pan });
+    setEditFiles({});
   };
 
   const handleInputChange = (e) => {
     setEditForm({ ...editForm, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    setEditFiles({ ...editFiles, [e.target.name]: e.target.files[0] });
+  };
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/pan-apply/${editingPan._id}`, editForm, {
-        headers: { Authorization: `Bearer ${token}` },
+      const formData = new FormData();
+
+      for (const key in editForm) {
+        formData.append(key, editForm[key]);
+      }
+
+      for (const key in editFiles) {
+        formData.append(key, editFiles[key]);
+      }
+
+      await axios.put(`http://localhost:5000/api/pan-apply/${editingPan._id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
+
       setEditingPan(null);
+      setEditFiles({});
       fetchPans();
     } catch (err) {
       console.error("Edit failed:", err);
+      alert("Failed to update PAN application.");
     }
   };
 
@@ -71,12 +90,7 @@ const AllPanCards = () => {
         <table className="min-w-[1000px] w-full text-sm text-left text-gray-800 border border-gray-300">
           <thead className="bg-gray-100 text-xs uppercase text-gray-600">
             <tr>
-              {[
-                "#", "Reference No", "Status", "First Name", "Last Name", "Name On Card",
-                "Gender", "DOB", "Parent Type", "Parent Name", "Address Type", "Address",
-                "Mobile", "Email", "Aadhaar", "Aadhaar Name", "Income Source",
-                "Identity Proof", "Address Proof", "DOB Proof", "Applicant Status", "Submitted On", "Actions"
-              ].map((header, index) => (
+              {["#", "Reference No", "Status", "First Name", "Last Name", "Name On Card", "Gender", "DOB", "Parent Type", "Parent Name", "Address Type", "Address", "Mobile", "Email", "Aadhaar", "Aadhaar Name", "Income Source", "Identity Proof", "Address Proof", "DOB Proof", "Applicant Status", "Submitted On", "Actions"].map((header, index) => (
                 <th key={index} className="px-3 py-2 border border-gray-300 bg-gray-200 whitespace-nowrap">
                   {header}
                 </th>
@@ -130,7 +144,6 @@ const AllPanCards = () => {
         </table>
       </div>
 
-      {/* Edit Modal */}
       {editingPan && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 rounded-xl shadow-lg relative">
@@ -143,20 +156,47 @@ const AllPanCards = () => {
             <h3 className="text-xl font-semibold mb-4 text-gray-800">Edit PAN Application</h3>
             <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
               {Object.entries(editForm).map(([key, value]) => {
-                if (["_id", "userId", "referenceNumber", "createdAt", "updatedAt", "__v"].includes(key)) return null;
+                if (["_id", "userId", "createdAt", "updatedAt", "__v"].includes(key)) return null;
+                if (["slip", "photo", "signature", "formPdf"].includes(key)) return null;
+
                 return (
                   <div key={key} className="col-span-1">
                     <label className="block text-sm text-gray-600 capitalize">{key}</label>
                     <input
                       type="text"
                       name={key}
-                      value={value}
+                      value={value || ""}
                       onChange={handleInputChange}
                       className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
                     />
                   </div>
                 );
               })}
+
+              <div className="col-span-1">
+                <label className="block text-sm text-gray-600">Acknowledgement Number</label>
+                <input
+                  type="text"
+                  name="acknowledgementNumber"
+                  value={editForm.acknowledgementNumber || ""}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                />
+              </div>
+
+              {["slip", "photo", "signature", "formPdf"].map((field) => (
+                <div key={field} className="col-span-1">
+                  <label className="block text-sm text-gray-600 capitalize">{field}</label>
+                  <input
+                    type="file"
+                    name={field}
+                    accept={field.includes("pdf") ? "application/pdf" : "pdf/*"}
+                    onChange={handleFileChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                  />
+                </div>
+              ))}
+
               <div className="col-span-2 mt-4">
                 <button
                   type="submit"

@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const ManualpanappySchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  referenceNumber: { type: String, required: true }, // ✅ 14-digit ref
-  status: { type: String, default: "Pending" },      // ✅ Default pending
+  referenceNumber: { type: String, required: true },
+  status: { type: String, default: "Pending" },
+
   lastName: String,
   firstName: String,
   nameOnCard: String,
@@ -22,6 +23,13 @@ const ManualpanappySchema = new mongoose.Schema({
   addressProof: String,
   dobProof: String,
   applicantStatus: String,
+
+  // 👇 Extra fields
+  acknowledgementNumber: String,
+  pdfSlip: String,
+  photo: String,
+  signature: String,
+  pdfForm: String,
 }, { timestamps: true });
 
 module.exports = mongoose.model("Manualpanappy", ManualpanappySchema);

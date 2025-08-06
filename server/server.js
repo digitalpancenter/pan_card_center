@@ -14,6 +14,8 @@ const ManualpanappyRoute = require("./routes/Manualpanappy");
 const allUserPanCards = require("./routes/allUserPanCards"); // ✅ Added
 
 const app = express();
+app.use("/uploads", express.static("uploads"));
+
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
