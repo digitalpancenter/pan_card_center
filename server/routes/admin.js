@@ -4,6 +4,7 @@ const User = require("../models/User");
 const authMiddleware = require("../middleware/auth");
 const adminMiddleware = require("../middleware/admin");
 
+
 // Get all users (admin only)
 router.get("/all-users", authMiddleware, adminMiddleware, async (req, res) => {
   try {
@@ -41,6 +42,19 @@ router.delete("/user/:id", authMiddleware, adminMiddleware, async (req, res) => 
 
     res.json({ message: "User deleted successfully" });
   } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+const ManualPan = require("../models/Manualpanappy");
+
+router.get("/all-pans", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const allPans = await ManualPan.find().populate("userId", "name email mobile");
+    res.json(allPans);
+  } catch (err) {
+    console.error("Error fetching PAN applications:", err);
     res.status(500).json({ message: "Server error" });
   }
 });

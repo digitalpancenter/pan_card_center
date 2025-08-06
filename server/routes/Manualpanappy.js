@@ -4,11 +4,21 @@ const ManualPan = require("../models/Manualpanappy");
 const User = require("../models/User");
 const Transaction = require("../models/Transaction");
 const authMiddleware = require("../middleware/auth");
+const nodemailer = require("nodemailer");
 
 // Generate a random 14-digit reference number
 function generateRefNumber() {
   return Math.floor(10000000000000 + Math.random() * 90000000000000).toString();
 }
+
+// Setup Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "radigitalindai@gmail.com",
+    pass: "qcsuxmqfmatycvpi", // App-specific password
+  },
+});
 
 router.post("/", authMiddleware, async (req, res) => {
   try {
@@ -26,7 +36,7 @@ router.post("/", authMiddleware, async (req, res) => {
     user.wallet -= deductionAmount;
     await user.save();
 
-    // Add transaction with clear name
+    // Log the transaction
     const transaction = new Transaction({
       userId,
       amount: deductionAmount,
@@ -35,17 +45,41 @@ router.post("/", authMiddleware, async (req, res) => {
     });
     await transaction.save();
 
-    // Save PAN form with status and reference number
+    // Generate reference number
     const referenceNumber = generateRefNumber();
 
+    // Save PAN form
     const newPan = new ManualPan({
       ...req.body,
       userId,
       referenceNumber,
-      status: "Pending", // Default status
+      status: "Pending",
     });
 
     await newPan.save();
+
+    // Send Email Notification
+    const mailOptions = {
+      from: '"RDigital PAN Service" <radigitalindai@gmail.com>',
+      to: "radigitalindai@gmail.com", // Receiver email
+      subject: "New PAN Card Request Submitted",
+      html: `
+        <h3>New PAN Card Application</h3>
+        <p><strong>User:</strong> ${user.name || user.email}</p>
+        <p><strong>Email:</strong> ${user.email}</p>
+        <p><strong>Reference Number:</strong> ${referenceNumber}</p>
+        <p><strong>Status:</strong> Pending</p>
+        <p>Log in to the admin panel to view full details.</p>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
 
     res.status(201).json({
       message: `PAN form submitted. ₹${deductionAmount} cut for PAN Application.`,
@@ -56,5 +90,23 @@ router.post("/", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// Example: routes/panApply.js or similar
+router.delete('/pan-apply/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await PanApplication.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ message: 'PAN application not found' });
+    }
+    res.status(200).json({ message: 'Deleted successfully' });
+  } catch (error) {
+    console.error("Error deleting PAN:", error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
 
 module.exports = router;

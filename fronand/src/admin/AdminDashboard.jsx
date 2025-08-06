@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         </button>
 
         <button
-          onClick={() => navigate("/manual-pan-apply")}
+          onClick={() => navigate("/allpancards")}
           className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded"
         >
           All Manual PAN Card Apply

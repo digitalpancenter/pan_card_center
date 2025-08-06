@@ -24,12 +24,14 @@ import InterestPANApply from "./pages/InterestPANApply";
 import InterestPANUpdate from "./pages/InterestPANUpdate";
 import Manualpanappy from "./pages/Manualpanappy";
 import PanForm49A from "./pages/PanForm49A";
+import MyPanList from "./pages/MyPanList";
 
 //admin page 
 import AdminDashboard from "./admin/AdminDashboard";
 import AllUsers from "./admin/AllUsers";
 import Newadduser from "./admin/Newadduser";
 import AllInterestPanCardList from "./admin/Allinterestpancardlist";
+import AllPanCards from "./admin/AllPanCards";
 
 const HomePage = () => (
   <>
@@ -100,6 +102,16 @@ export default function App() {
     <PrivateRoute>
       <DashboardLayout>
         <Manualpanappy />
+      </DashboardLayout>
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/mypanList"
+  element={
+    <PrivateRoute>
+      <DashboardLayout>
+        <MyPanList />
       </DashboardLayout>
     </PrivateRoute>
   }
@@ -182,6 +194,16 @@ export default function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <AllInterestPanCardList />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+         <Route
+          path="/allpancards"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <AllPanCards />
               </DashboardLayout>
             </PrivateRoute>
           }

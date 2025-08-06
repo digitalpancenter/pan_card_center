@@ -7,11 +7,11 @@ const adminRoutes = require("./routes/admin");
 const authRoutes = require("./routes/auth");
 const walletRoutes = require("./routes/wallet");
 const transactionsRoute = require("./routes/transactions");
-const panApplyRoute = require("./routes/panApply"); // ✅ correct path
+const panApplyRoute = require("./routes/panApply");
 const panApplicationsRoute = require("./routes/panApplications");
-
 const panUpdateRoute = require("./routes/panUpdate");
 const ManualpanappyRoute = require("./routes/Manualpanappy");
+const allUserPanCards = require("./routes/allUserPanCards"); // ✅ Added
 
 const app = express();
 
@@ -23,12 +23,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/wallet", walletRoutes);
 app.use("/api/transactions", transactionsRoute);
-app.use("/api/pan-apply", panApplyRoute)
-console.log("PAN Apply route loaded"); // just before: app.use("/api/pan-apply", panApplyRoute);
-app.use("/api/pan-update", panUpdateRoute);  // ✅ Important line
+app.use("/api/pan-apply", panApplyRoute);
+app.use("/api/pan-apply", allUserPanCards); // ✅ Registered here
+app.use("/api/pan-update", panUpdateRoute);
 app.use("/api/pan-applications", panApplicationsRoute);
 app.use("/api/Manualpanappy", ManualpanappyRoute);
-
 
 const PORT = process.env.PORT || 5000;
 
