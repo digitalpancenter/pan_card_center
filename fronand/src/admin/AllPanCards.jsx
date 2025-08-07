@@ -90,7 +90,7 @@ const AllPanCards = () => {
         <table className="min-w-[1000px] w-full text-sm text-left text-gray-800 border border-gray-300">
           <thead className="bg-gray-100 text-xs uppercase text-gray-600">
             <tr>
-              {["#", "Reference No", "Status", "First Name", "Last Name", "Name On Card", "Gender", "DOB", "Parent Type", "Parent Name", "Address Type", "Address", "Mobile", "Email", "Aadhaar", "Aadhaar Name", "Income Source", "Identity Proof", "Address Proof", "DOB Proof", "Applicant Status", "Submitted On", "Actions"].map((header, index) => (
+              {["#", "Reference No", "Status", "First Name", "Last Name", "Name On Card", "Gender", "DOB", "Parent Type", "Parent Name", "Address Type", "Address", "Mobile", "Email", "Aadhaar", "Aadhaar Name", "Income Source", "Acknowledgement Number", "Identity Proof", "Address Proof", "DOB Proof", "Applicant Status", "Image", "Signature", "Pan Fom", "Acknowledgement Slip", "Submitted On", "Actions"].map((header, index) => (
                 <th key={index} className="px-3 py-2 border border-gray-300 bg-gray-200 whitespace-nowrap">
                   {header}
                 </th>
@@ -103,7 +103,7 @@ const AllPanCards = () => {
                 <tr key={pan._id} className="hover:bg-gray-50">
                   <td className="px-3 py-2 border border-gray-300">{index + 1}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.referenceNumber}</td>
-                  <td className="px-3 py-2 border border-gray-300">{pan.status}</td>
+                  <td className="px-3 py-2 border border-gray-300">{pan.applicantStatus}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.firstName}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.lastName}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.nameOnCard}</td>
@@ -118,10 +118,45 @@ const AllPanCards = () => {
                   <td className="px-3 py-2 border border-gray-300">{pan.aadhaar}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.aadhaarName}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.incomeSource}</td>
+                  <td className="px-3 py-2 border border-gray-300">{pan.acknowledgementNumber}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.identityProof}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.addressProof}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.dobProof}</td>
-                  <td className="px-3 py-2 border border-gray-300">{pan.applicantStatus}</td>
+                   <td className="px-3 py-2 border border-gray-300">{pan.status}</td>
+                  <td className="px-3 py-2 border border-gray-300">
+  {pan.photo && (
+    <img src={`http://localhost:5000/${pan.photo.replace(/\\/g, "/")}`} alt="photo" className="w-12 h-12 object-cover rounded" />
+  )}
+</td>
+<td className="px-3 py-2 border border-gray-300">
+  {pan.signature && (
+    <img src={`http://localhost:5000/${pan.signature.replace(/\\/g, "/")}`} alt="signature" className="w-12 h-12 object-cover rounded" />
+  )}
+</td>
+<td className="px-3 py-2 border border-gray-300">
+  {pan.pdfForm && (
+    <a
+      href={`http://localhost:5000/${pan.pdfForm.replace(/\\/g, "/")}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline"
+    >
+      View Form
+    </a>
+  )}
+</td>
+<td className="px-3 py-2 border border-gray-300">
+  {pan.pdfSlip && (
+    <a
+      href={`http://localhost:5000/${pan.pdfSlip.replace(/\\/g, "/")}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline"
+    >
+      View Slip
+    </a>
+  )}
+</td>
                   <td className="px-3 py-2 border border-gray-300">{new Date(pan.createdAt).toLocaleDateString()}</td>
                   <td className="px-3 py-2 border border-gray-300 flex gap-2">
                     <button onClick={() => handleEditClick(pan)} className="text-blue-600 hover:text-blue-800">
@@ -139,6 +174,7 @@ const AllPanCards = () => {
                   No PAN applications found.
                 </td>
               </tr>
+              
             )}
           </tbody>
         </table>
@@ -184,19 +220,22 @@ const AllPanCards = () => {
                 />
               </div>
 
-              {["slip", "photo", "signature", "formPdf"].map((field) => (
+               {["pdfSlip", "photo", "signature", "pdfForm"].map((field) => {
+              let acceptType = "image/*";
+              if (field === "pdfForm" || field === "pdfSlip") acceptType = "application/pdf,image/*";               
+              return (
                 <div key={field} className="col-span-1">
                   <label className="block text-sm text-gray-600 capitalize">{field}</label>
                   <input
                     type="file"
                     name={field}
-                    accept={field.includes("pdf") ? "application/pdf" : "pdf/*"}
+                    accept={acceptType}
                     onChange={handleFileChange}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
                   />
                 </div>
-              ))}
-
+                );
+              })}
               <div className="col-span-2 mt-4">
                 <button
                   type="submit"

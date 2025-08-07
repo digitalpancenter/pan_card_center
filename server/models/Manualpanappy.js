@@ -26,10 +26,10 @@ const ManualpanappySchema = new mongoose.Schema({
 
   // 👇 Extra fields
   acknowledgementNumber: String,
-  pdfSlip: String,
-  photo: String,
-  signature: String,
-  pdfForm: String,
+ pdfSlip: String,
+photo: String,
+signature: String,
+pdfForm: String,
 }, { timestamps: true });
 
 module.exports = mongoose.model("Manualpanappy", ManualpanappySchema);

@@ -35,33 +35,31 @@ router.delete("/:id", async (req, res) => {
 router.put(
   "/:id",
   upload.fields([
-    { name: "slip", maxCount: 1 },
+    { name: "pdfSlip", maxCount: 1 },
     { name: "photo", maxCount: 1 },
     { name: "signature", maxCount: 1 },
-    { name: "formPdf", maxCount: 1 },
+    { name: "pdfForm", maxCount: 1 },
   ]),
   async (req, res) => {
     try {
-      const updates = req.body;
+      const updates = { ...req.body };
 
       if (req.files) {
-        if (req.files.slip) updates.slip = req.files.slip[0].path;
+        if (req.files.pdfSlip) updates.pdfSlip = req.files.pdfSlip[0].path;
         if (req.files.photo) updates.photo = req.files.photo[0].path;
         if (req.files.signature) updates.signature = req.files.signature[0].path;
-        if (req.files.formPdf) updates.formPdf = req.files.formPdf[0].path;
+        if (req.files.pdfForm) updates.pdfForm = req.files.pdfForm[0].path;
       }
 
       const updated = await Manualpanappy.findByIdAndUpdate(req.params.id, updates, {
         new: true,
       });
 
-      if (!updated) {
-        return res.status(404).json({ error: "PAN application not found" });
-      }
+      if (!updated) return res.status(404).json({ error: "Not found" });
 
-      res.status(200).json(updated);
+      res.json(updated);
     } catch (error) {
-      console.error("Error updating PAN application:", error);
+      console.error("Update error:", error);
       res.status(500).json({ error: "Server error" });
     }
   }
