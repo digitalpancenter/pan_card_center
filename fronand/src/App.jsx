@@ -26,6 +26,7 @@ import Manualpanappy from "./pages/Manualpanappy";
 import PanForm49A from "./pages/PanForm49A";
 import MyPanList from "./pages/MyPanList";
 import Manualpanuploads from "./pages/Manualpanuploads";
+import AadharToPan from "./pages/AadharToPan";
 
 //admin page 
 import AdminDashboard from "./admin/AdminDashboard";
@@ -163,6 +164,16 @@ export default function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <PanForm49A />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/aadhartopan"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <AadharToPan />
               </DashboardLayout>
             </PrivateRoute>
           }

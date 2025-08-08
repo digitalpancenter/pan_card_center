@@ -12,6 +12,7 @@ const panApplicationsRoute = require("./routes/panApplications");
 const panUpdateRoute = require("./routes/panUpdate");
 const manualPanAppyRoute = require("./routes/Manualpanappy"); // ✅ lowercase consistent
 const allUserPanCards = require("./routes/allUserPanCards");
+const aadharToPanRoute = require("./routes/aadharToPan");
 
 const app = express();
 app.use("/uploads", express.static("uploads"));
@@ -29,8 +30,16 @@ app.use("/api/pan-apply", allUserPanCards);
 app.use("/api/pan-update", panUpdateRoute);
 app.use("/api/pan-applications", panApplicationsRoute);
 app.use("/api/manualpanappy", manualPanAppyRoute); // ✅ lowercase route
+// Use kebab-case (recommended)
+app.use("/api/aadhar-to-pan", aadharToPanRoute);
+
 
 const PORT = process.env.PORT || 5000;
+
+// ✅ Optional: test home route
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/rndigitalindia")
