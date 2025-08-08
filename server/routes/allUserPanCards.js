@@ -17,20 +17,6 @@ router.get("/all-pans", async (req, res) => {
   }
 });
 
-// POST /api/manualpanappy/check-reference
-router.post("/check-reference", async (req, res) => {
-  const { referenceNumber } = req.body;
-
-  const record = await ManualPan.findOne({ referenceNumber });
-
-  if (record) {
-    res.json({ success: true });
-  } else {
-    res.status(404).json({ success: false, message: "Reference not found" });
-  }
-});
-
-
 // DELETE PAN application by ID
 router.delete("/:id", async (req, res) => {
   try {
@@ -48,21 +34,23 @@ router.delete("/:id", async (req, res) => {
 // UPDATE PAN application by ID (with file upload support)
 router.put(
   "/:id",
-  upload.fields([
-    { name: "pdfSlip", maxCount: 1 },
+upload.fields([
     { name: "photo", maxCount: 1 },
     { name: "signature", maxCount: 1 },
     { name: "pdfForm", maxCount: 1 },
+    { name: "pdfSlip", maxCount: 1 },
+    { name: "pdfPan", maxCount: 1 } // ✅ new PAN PDF field
   ]),
   async (req, res) => {
     try {
       const updates = { ...req.body };
 
       if (req.files) {
-        if (req.files.pdfSlip) updates.pdfSlip = req.files.pdfSlip[0].path;
         if (req.files.photo) updates.photo = req.files.photo[0].path;
         if (req.files.signature) updates.signature = req.files.signature[0].path;
         if (req.files.pdfForm) updates.pdfForm = req.files.pdfForm[0].path;
+        if (req.files.pdfSlip) updates.pdfSlip = req.files.pdfSlip[0].path;
+        if (req.files.pdfPan) updates.pdfPan = req.files.pdfPan[0].path; // ✅ handle new field
       }
 
       const updated = await Manualpanappy.findByIdAndUpdate(req.params.id, updates, {
@@ -78,5 +66,6 @@ router.put(
     }
   }
 );
+
 
 module.exports = router;

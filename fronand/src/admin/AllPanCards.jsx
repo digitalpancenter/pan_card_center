@@ -29,7 +29,9 @@ const AllPanCards = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/pan-apply/${id}`);
+      await axios.delete(`http://localhost:5000/api/pan-apply/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       alert("Deleted successfully");
       fetchPans();
     } catch (error) {
@@ -90,7 +92,13 @@ const AllPanCards = () => {
         <table className="min-w-[1000px] w-full text-sm text-left text-gray-800 border border-gray-300">
           <thead className="bg-gray-100 text-xs uppercase text-gray-600">
             <tr>
-              {["#", "Reference No", "Status", "First Name", "Last Name", "Name On Card", "Gender", "DOB", "Parent Type", "Parent Name", "Address Type", "Address", "Mobile", "Email", "Aadhaar", "Aadhaar Name", "Income Source", "Acknowledgement Number", "Identity Proof", "Address Proof", "DOB Proof", "Applicant Status", "Image", "Signature", "Pan Fom", "Acknowledgement Slip", "Submitted On", "Actions"].map((header, index) => (
+              {[
+                "#", "Reference No", "Status", "First Name", "Last Name", "Name On Card", "Gender", "DOB",
+                "Parent Type", "Parent Name", "Address Type", "Address", "Mobile", "Email", "Aadhaar",
+                "Aadhaar Name", "Income Source", "Acknowledgement Number", "Identity Proof", "Address Proof",
+                "DOB Proof", "Applicant Status", "Image", "Signature", "Pan Form", "Acknowledgement Slip",
+                "PDF PAN", "Submitted On", "Actions"
+              ].map((header, index) => (
                 <th key={index} className="px-3 py-2 border border-gray-300 bg-gray-200 whitespace-nowrap">
                   {header}
                 </th>
@@ -122,41 +130,38 @@ const AllPanCards = () => {
                   <td className="px-3 py-2 border border-gray-300">{pan.identityProof}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.addressProof}</td>
                   <td className="px-3 py-2 border border-gray-300">{pan.dobProof}</td>
-                   <td className="px-3 py-2 border border-gray-300">{pan.status}</td>
+                  <td className="px-3 py-2 border border-gray-300">{pan.status}</td>
                   <td className="px-3 py-2 border border-gray-300">
-  {pan.photo && (
-    <img src={`http://localhost:5000/${pan.photo.replace(/\\/g, "/")}`} alt="photo" className="w-12 h-12 object-cover rounded" />
-  )}
-</td>
-<td className="px-3 py-2 border border-gray-300">
-  {pan.signature && (
-    <img src={`http://localhost:5000/${pan.signature.replace(/\\/g, "/")}`} alt="signature" className="w-12 h-12 object-cover rounded" />
-  )}
-</td>
-<td className="px-3 py-2 border border-gray-300">
-  {pan.pdfForm && (
-    <a
-      href={`http://localhost:5000/${pan.pdfForm.replace(/\\/g, "/")}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 underline"
-    >
-      View Form
-    </a>
-  )}
-</td>
-<td className="px-3 py-2 border border-gray-300">
-  {pan.pdfSlip && (
-    <a
-      href={`http://localhost:5000/${pan.pdfSlip.replace(/\\/g, "/")}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 underline"
-    >
-      View Slip
-    </a>
-  )}
-</td>
+                    {pan.photo && (
+                      <img src={`http://localhost:5000/${pan.photo.replace(/\\/g, "/")}`} alt="photo" className="w-12 h-12 object-cover rounded" />
+                    )}
+                  </td>
+                  <td className="px-3 py-2 border border-gray-300">
+                    {pan.signature && (
+                      <img src={`http://localhost:5000/${pan.signature.replace(/\\/g, "/")}`} alt="signature" className="w-12 h-12 object-cover rounded" />
+                    )}
+                  </td>
+                  <td className="px-3 py-2 border border-gray-300">
+                    {pan.pdfForm && (
+                      <a href={`http://localhost:5000/${pan.pdfForm.replace(/\\/g, "/")}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                        View Form
+                      </a>
+                    )}
+                  </td>
+                  <td className="px-3 py-2 border border-gray-300">
+                    {pan.pdfSlip && (
+                      <a href={`http://localhost:5000/${pan.pdfSlip.replace(/\\/g, "/")}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                        View Slip
+                      </a>
+                    )}
+                  </td>
+                   <td className="px-3 py-2 border border-gray-300">
+                    {pan.pdfPan && (
+                      <a href={`http://localhost:5000/${pan.pdfPan.replace(/\\/g, "/")}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                        Pan Pdf
+                      </a>
+                    )}
+                  </td>
                   <td className="px-3 py-2 border border-gray-300">{new Date(pan.createdAt).toLocaleDateString()}</td>
                   <td className="px-3 py-2 border border-gray-300 flex gap-2">
                     <button onClick={() => handleEditClick(pan)} className="text-blue-600 hover:text-blue-800">
@@ -170,11 +175,10 @@ const AllPanCards = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="23" className="px-4 py-4 text-center text-gray-500 border border-gray-300">
+                <td colSpan="28" className="px-4 py-4 text-center text-gray-500 border border-gray-300">
                   No PAN applications found.
                 </td>
               </tr>
-              
             )}
           </tbody>
         </table>
@@ -183,17 +187,14 @@ const AllPanCards = () => {
       {editingPan && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 rounded-xl shadow-lg relative">
-            <button
-              onClick={() => setEditingPan(null)}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black"
-            >
+            <button onClick={() => setEditingPan(null)} className="absolute top-2 right-2 text-gray-600 hover:text-black">
               <X size={20} />
             </button>
             <h3 className="text-xl font-semibold mb-4 text-gray-800">Edit PAN Application</h3>
             <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
               {Object.entries(editForm).map(([key, value]) => {
                 if (["_id", "userId", "createdAt", "updatedAt", "__v"].includes(key)) return null;
-                if (["slip", "photo", "signature", "formPdf"].includes(key)) return null;
+                if (["slip", "photo", "signature", "formPdf", "pdfPan"].includes(key)) return null;
 
                 return (
                   <div key={key} className="col-span-1">
@@ -220,27 +221,27 @@ const AllPanCards = () => {
                 />
               </div>
 
-               {["pdfSlip", "photo", "signature", "pdfForm"].map((field) => {
-              let acceptType = "image/*";
-              if (field === "pdfForm" || field === "pdfSlip") acceptType = "application/pdf,image/*";               
-              return (
-                <div key={field} className="col-span-1">
-                  <label className="block text-sm text-gray-600 capitalize">{field}</label>
-                  <input
-                    type="file"
-                    name={field}
-                    accept={acceptType}
-                    onChange={handleFileChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
-                  />
-                </div>
+              {["pdfSlip", "photo", "signature", "pdfForm", "pdfPan"].map((field) => {
+                let acceptType = "image/*";
+                if (field === "pdfForm" || field === "pdfSlip" || field === "pdfPan") {
+                  acceptType = "application/pdf,image/*";
+                }
+                return (
+                  <div key={field} className="col-span-1">
+                    <label className="block text-sm text-gray-600 capitalize">{field}</label>
+                    <input
+                      type="file"
+                      name={field}
+                      accept={acceptType}
+                      onChange={handleFileChange}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                    />
+                  </div>
                 );
               })}
+
               <div className="col-span-2 mt-4">
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
+                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                   Update
                 </button>
               </div>
