@@ -17,6 +17,20 @@ router.get("/all-pans", async (req, res) => {
   }
 });
 
+// POST /api/manualpanappy/check-reference
+router.post("/check-reference", async (req, res) => {
+  const { referenceNumber } = req.body;
+
+  const record = await ManualPan.findOne({ referenceNumber });
+
+  if (record) {
+    res.json({ success: true });
+  } else {
+    res.status(404).json({ success: false, message: "Reference not found" });
+  }
+});
+
+
 // DELETE PAN application by ID
 router.delete("/:id", async (req, res) => {
   try {

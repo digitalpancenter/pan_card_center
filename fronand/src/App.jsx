@@ -25,6 +25,7 @@ import InterestPANUpdate from "./pages/InterestPANUpdate";
 import Manualpanappy from "./pages/Manualpanappy";
 import PanForm49A from "./pages/PanForm49A";
 import MyPanList from "./pages/MyPanList";
+import Manualpanuploads from "./pages/Manualpanuploads";
 
 //admin page 
 import AdminDashboard from "./admin/AdminDashboard";
@@ -102,6 +103,16 @@ export default function App() {
     <PrivateRoute>
       <DashboardLayout>
         <Manualpanappy />
+      </DashboardLayout>
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/manualpanuploads"
+  element={
+    <PrivateRoute>
+      <DashboardLayout>
+        <Manualpanuploads />
       </DashboardLayout>
     </PrivateRoute>
   }

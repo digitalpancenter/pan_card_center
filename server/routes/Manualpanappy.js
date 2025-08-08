@@ -20,6 +20,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// 📨 Submit PAN form
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const userId = req.user._id;
@@ -27,16 +28,13 @@ router.post("/", authMiddleware, async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const deductionAmount = 110;
-
     if (user.wallet < deductionAmount) {
       return res.status(400).json({ message: "Insufficient wallet balance" });
     }
 
-    // Deduct ₹110
     user.wallet -= deductionAmount;
     await user.save();
 
-    // Log the transaction
     const transaction = new Transaction({
       userId,
       amount: deductionAmount,
@@ -45,10 +43,7 @@ router.post("/", authMiddleware, async (req, res) => {
     });
     await transaction.save();
 
-    // Generate reference number
     const referenceNumber = generateRefNumber();
-
-    // Save PAN form
     const newPan = new ManualPan({
       ...req.body,
       userId,
@@ -58,10 +53,9 @@ router.post("/", authMiddleware, async (req, res) => {
 
     await newPan.save();
 
-    // Send Email Notification
     const mailOptions = {
       from: '"RDigital PAN Service" <radigitalindai@gmail.com>',
-      to: "radigitalindai@gmail.com", // Receiver email
+      to: "radigitalindai@gmail.com",
       subject: "New PAN Card Request Submitted",
       html: `
         <h3>New PAN Card Application</h3>
@@ -91,22 +85,29 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Example: routes/panApply.js or similar
-router.delete('/pan-apply/:id', async (req, res) => {
+// 📥 GET PAN list for logged-in user
+router.get("/my-pans", authMiddleware, async (req, res) => {
   try {
-    const { id } = req.params;
-    const deleted = await PanApplication.findByIdAndDelete(id);
-    if (!deleted) {
-      return res.status(404).json({ message: 'PAN application not found' });
-    }
-    res.status(200).json({ message: 'Deleted successfully' });
-  } catch (error) {
-    console.error("Error deleting PAN:", error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    const userId = req.user._id;
+    const pans = await ManualPan.find({ userId }).sort({ createdAt: -1 });
+    res.json(pans);
+  } catch (err) {
+    console.error("Error fetching PAN list:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
+// // POST /api/manualpanappy/check-reference
+// router.post("/check-reference", async (req, res) => {
+//   const { referenceNumber } = req.body;
 
+//   const record = await ManualPan.findOne({ referenceNumber });
 
+//   if (record) {
+//     res.json({ success: true });
+//   } else {
+//     res.status(404).json({ success: false, message: "Reference not found" });
+//   }
+// });
 
 module.exports = router;

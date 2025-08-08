@@ -15,13 +15,12 @@ const MyPanList = () => {
     const fetchPanList = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/Manualpanappy/my-pans", {
+        const res = await axios.get("http://localhost:5000/api/manualpanappy/my-pans", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         const list = res.data;
 
-        // Count status
         const counts = {
           pending: 0,
           success: 0,
@@ -54,7 +53,6 @@ const MyPanList = () => {
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">🧾 My PAN Applications</h2>
 
-      {/* 🔢 Status Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded shadow">
           <h3 className="text-lg font-semibold text-yellow-700">Pending</h3>
@@ -74,7 +72,6 @@ const MyPanList = () => {
         </div>
       </div>
 
-      {/* 📋 Table of PAN Applications */}
       {panList.length === 0 ? (
         <div>No PAN applications found.</div>
       ) : (
@@ -87,6 +84,8 @@ const MyPanList = () => {
               <th className="p-2 border">Mobile</th>
               <th className="p-2 border">Email Id</th>
               <th className="p-2 border">Status</th>
+              <th className="p-2 border">Acknowledgement Number</th>
+              <th className="p-2 border">Slip</th>
               <th className="p-2 border">Date</th>
             </tr>
           </thead>
@@ -94,15 +93,28 @@ const MyPanList = () => {
             {panList.map((pan) => (
               <tr key={pan._id} className="hover:bg-gray-50">
                 <td className="p-2 border">{pan.referenceNumber}</td>
-                <td className="p-2 border">
-                  {pan.firstName} {pan.lastName}
-                </td>
+                <td className="p-2 border">{pan.firstName} {pan.lastName}</td>
                 <td className="p-2 border">{pan.dob}</td>
                 <td className="p-2 border">{pan.mobile}</td>
                 <td className="p-2 border">{pan.email}</td>
                 <td className="p-2 border capitalize">{pan.status}</td>
+                <td className="p-2 border ">{pan.acknowledgementNumber}</td>
+                <td className="px-3 py-2 border border-gray-300">
+  {pan.pdfSlip ? (
+    <a
+      href={`http://localhost:5000/${pan.pdfSlip.replace(/\\/g, "/")}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline"
+    >
+      View Slip
+    </a>
+  ) : (
+    <span className="text-gray-400">N/A</span>
+  )}
+</td>
                 <td className="p-2 border">{new Date(pan.createdAt).toLocaleString()}</td>
-              </tr>
+              </tr>  
             ))}
           </tbody>
         </table>
