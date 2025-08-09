@@ -26,6 +26,8 @@ import Manualpanappy from "./pages/Manualpanappy";
 import PanForm49A from "./pages/PanForm49A";
 import MyPanList from "./pages/MyPanList";
 import Manualpanuploads from "./pages/Manualpanuploads";
+import PanCorrection from "./pages/pancorrection";
+import Pancorrectionuploads from "./pages/pancorrectionuploads";
 import AadharToPan from "./pages/AadharToPan";
 
 //admin page 
@@ -114,6 +116,26 @@ export default function App() {
     <PrivateRoute>
       <DashboardLayout>
         <Manualpanuploads />
+      </DashboardLayout>
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/correction-pan-card"
+  element={
+    <PrivateRoute>
+      <DashboardLayout>
+        <PanCorrection />
+      </DashboardLayout>
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/correction-pan-uploads"
+  element={
+    <PrivateRoute>
+      <DashboardLayout>
+        <Pancorrectionuploads />
       </DashboardLayout>
     </PrivateRoute>
   }

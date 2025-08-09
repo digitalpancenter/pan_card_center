@@ -35,12 +35,12 @@ router.delete("/:id", async (req, res) => {
 router.put(
   "/:id",
 upload.fields([
-    { name: "photo", maxCount: 1 },
-    { name: "signature", maxCount: 1 },
-    { name: "pdfForm", maxCount: 1 },
-    { name: "pdfSlip", maxCount: 1 },
-    { name: "pdfPan", maxCount: 1 } // ✅ new PAN PDF field
-  ]),
+  { name: "photo", maxCount: 1 },
+  { name: "signature", maxCount: 1 },
+  { name: "pdfForm", maxCount: 1 },
+  { name: "pdfSlip", maxCount: 1 },
+{ name: "pdfPan", maxCount: 1 } // ✅ new PAN PDF field
+]),
   async (req, res) => {
     try {
       const updates = { ...req.body };
@@ -50,7 +50,7 @@ upload.fields([
         if (req.files.signature) updates.signature = req.files.signature[0].path;
         if (req.files.pdfForm) updates.pdfForm = req.files.pdfForm[0].path;
         if (req.files.pdfSlip) updates.pdfSlip = req.files.pdfSlip[0].path;
-        if (req.files.pdfPan) updates.pdfPan = req.files.pdfPan[0].path; // ✅ handle new field
+        if (req.files.pdfPan) updates.pdfPan = req.files.pdfPan[0].path;
       }
 
       const updated = await Manualpanappy.findByIdAndUpdate(req.params.id, updates, {

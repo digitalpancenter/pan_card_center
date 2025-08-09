@@ -4,7 +4,7 @@ const ManualpanappySchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   referenceNumber: { type: String, required: true },
   status: { type: String, default: "Pending" },
-
+  pannumber: String,
   lastName: String,
   firstName: String,
   nameOnCard: String,
@@ -22,6 +22,7 @@ const ManualpanappySchema = new mongoose.Schema({
   identityProof: String,
   addressProof: String,
   dobProof: String,
+  panproof: String,
   applicantStatus: String,
 
   // 👇 Extra fields
@@ -30,6 +31,7 @@ const ManualpanappySchema = new mongoose.Schema({
 photo: String,
 signature: String,
 pdfForm: String,
+pdfPan: String,
 }, { timestamps: true });
 
 module.exports = mongoose.model("Manualpanappy", ManualpanappySchema);

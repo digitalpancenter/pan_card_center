@@ -79,6 +79,7 @@ const MyPanList = () => {
           <thead>
             <tr className="bg-gray-100 text-left">
               <th className="p-2 border">Ref No</th>
+              <th className="p-2 border">Pan Number </th>
               <th className="p-2 border">Name</th>
               <th className="p-2 border">Date Of Birth</th>
               <th className="p-2 border">Mobile</th>
@@ -93,12 +94,13 @@ const MyPanList = () => {
             {panList.map((pan) => (
               <tr key={pan._id} className="hover:bg-gray-50">
                 <td className="p-2 border">{pan.referenceNumber}</td>
+                <td className="p-2 border">{pan.pannumber && pan.pannumber.trim() !== "" ? pan.pannumber : "New Pan Card"}</td>
                 <td className="p-2 border">{pan.firstName} {pan.lastName}</td>
                 <td className="p-2 border">{pan.dob}</td>
                 <td className="p-2 border">{pan.mobile}</td>
                 <td className="p-2 border">{pan.email}</td>
                 <td className="p-2 border capitalize">{pan.status}</td>
-                <td className="p-2 border ">{pan.acknowledgementNumber}</td>
+                <td className="p-2 border ">{pan.acknowledgementNumber && pan.acknowledgementNumber.trim() !==""? pan.acknowledgementNumber : "Acknowledgement Number aapka Ref No Hai "}</td>
                 <td className="px-3 py-2 border border-gray-300">
   {pan.pdfSlip ? (
     <a
