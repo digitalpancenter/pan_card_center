@@ -1,18 +1,14 @@
 const mongoose = require("mongoose");
 
 const PanCorrectionRequestSchema = new mongoose.Schema({
-  panNumber: { type: String, required: true },
-  name: { type: String, required: true },
-  dob: { type: String, required: true },
-  mobile: { type: String, required: true },
-  email: { type: String, required: true },
-  mode: { type: String, enum: ["scan", "ekyc"], required: true },
-  category: { type: String, default: "INDIVIDUAL" },
-  panType: { type: String, enum: ["Physical PAN Card", "Both"], required: true },
-  status: { type: String, default: "Pending" },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  orderId: String,
-  createdAt: { type: Date, default: Date.now },
-});
+  apiKey: { type: String, required: true },
+  number: { type: String, required: true },
+  panMode: { type: String, enum: ["EKYC", "ESIGN"], required: true },
+  panType: { type: String, enum: ["new_pan", "correction"], required: true },
+  returnUrl: { type: String, required: true },
+  orderId: { type: String, required: true },
+  txnId: { type: String },
+  redirectingUrl: { type: String }
+}, { timestamps: true });
 
 module.exports = mongoose.model("PanCorrectionRequest", PanCorrectionRequestSchema);
