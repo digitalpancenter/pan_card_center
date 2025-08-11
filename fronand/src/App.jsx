@@ -23,7 +23,7 @@ import PanCard from "./pages/PanCard"; // adjust path if needed
 import InterestPANApply from "./pages/InterestPANApply";
 import InterestPANUpdate from "./pages/InterestPANUpdate";
 import Manualpanappy from "./pages/Manualpanappy";
-import PanForm49A from "./pages/PanForm49A";
+// import PanForm49A from "./pages/PanForm49A";
 import MyPanList from "./pages/MyPanList";
 import Manualpanuploads from "./pages/Manualpanuploads";
 import PanCorrection from "./pages/pancorrection";
@@ -180,7 +180,7 @@ export default function App() {
             </PrivateRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/panaorm49A"
           element={
             <PrivateRoute>
@@ -189,7 +189,7 @@ export default function App() {
               </DashboardLayout>
             </PrivateRoute>
           }
-        />
+        /> */}
         <Route
           path="/aadhartopan"
           element={

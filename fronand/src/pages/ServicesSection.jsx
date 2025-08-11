@@ -33,12 +33,34 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <div id="services" className="relative bg-gray-40 pt-5 pb-22 px-5">
+    <div
+      id="services"
+      className="scroll-mt-20 relative bg-gradient-to-b from-pink-500 via-purple-600 to-purple-900 overflow-hidden py-10"
+    >
+      {/* Wavy Lines Background */}
+      <div className="absolute inset-0">
+        <svg
+          className="absolute bottom-0 left-0 w-full h-full opacity-80"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+        >
+          {[...Array(6)].map((_, i) => (
+            <path
+              key={i}
+              fill="none"
+              stroke="white"
+              strokeWidth="1"
+              d={`M0,${160 + i * 20} C240,${280 + i * 20} 480,${40 + i * 20} 720,${160 + i * 20} C960,${280 + i * 20} 1200,${40 + i * 20} 1440,${160 + i * 20}`}
+            />
+          ))}
+        </svg>
+      </div>
+
       {/* Content */}
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="relative z-10 max-w-6xl mx-auto px-5">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-gray-8000">Our Services</h2>
-          <p className="text-blue-600 mt-2">Grow Your Business</p>
+          <h2 className="text-3xl font-bold text-white">Our Services</h2>
+          <p className="text-pink-200 mt-2">Grow Your Business</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -66,20 +88,8 @@ const ServicesSection = () => {
           ))}
         </div>
       </div>
-
-      {/* Wavy Background SVG at Bottom */}
-      <svg
-        viewBox="50 40 1040 320"
-        xmlns="http://www.w3.org/2000/svg"
-        className="absolute bottom-0 left-0 w-full -z-10"
-      >
-        <path
-          fill="#f1f5f9"
-          fillOpacity="1"
-          d="M0,64L48,80C96,96,192,128,288,138.7C384,149,480,139,576,133.3C672,128,768,128,864,122.7C960,117,1056,107,1152,90.7C1248,75,1344,53,1392,42.7L1440,32V320H0Z"
-        />
-      </svg>
     </div>
   );
 };
+
 export default ServicesSection;

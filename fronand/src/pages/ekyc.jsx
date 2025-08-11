@@ -16,12 +16,14 @@ const ServicesGrid = () => {
     <div className="py-12 px-5 bg-pink-600">
       <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
         {services.map((service, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <img
-              src={service.img}
-              alt={service.title}
-              className="h-40 w-40 sm:h-50 sm:w-44 mb-4 mt-4 object-contain transition-transform duration-300 hover:scale-110"
-            />
+         <div key={index} className="flex flex-col items-center group">
+            <div className="bg-white p-4 rounded-2xl shadow-lg mb-4 transform transition-transform duration-300 group-hover:scale-110 group-hover:shadow-xl">
+              <img
+                src={service.img}
+                alt={service.title}
+                className="h-32 w-32 sm:h-36 sm:w-36 object-contain"
+              />
+            </div>
             <p className="text-white text-lg font-semibold">{service.title}</p>
           </div>
         ))}

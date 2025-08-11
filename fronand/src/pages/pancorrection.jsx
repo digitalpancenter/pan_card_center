@@ -214,7 +214,7 @@ const handleSubmit = async (e) => {
         <input name="identityProof" value={form.identityProof} onChange={handleChange} placeholder="Proof of Identity" className="border p-2 rounded w-full text-sm placeholder-gray-400" />
         <input name="addressProof" value={form.addressProof} onChange={handleChange} placeholder="Proof of Address" className="border p-2 rounded w-full text-sm placeholder-gray-400" />
         <input name="dobProof" value={form.dobProof} onChange={handleChange} placeholder="Proof of Date of Birth" className="border p-2 rounded w-full text-sm placeholder-gray-400" />
-        <input name="panproof" value={form.dobProof} onChange={handleChange} placeholder="Proof of Date of Birth" className="border p-2 rounded w-full text-sm placeholder-gray-400" />
+        <input name="panproof" value={form.panproof} onChange={handleChange} placeholder="proof PAN CARD" className="border p-2 rounded w-full text-sm placeholder-gray-400" />
       </div>
 
       <div className="text-center">

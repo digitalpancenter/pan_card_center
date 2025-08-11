@@ -1,9 +1,9 @@
 import React from "react";
-import PANImage from "../img/images.jpeg"; // ✅ Correct relative path
+import PANImage from "../img/image.png"; // ✅ correct name
 
 const HeroSection = () => {
   return (
-    <section id="home" className="bg-white py-12 px-6 md:px-20">
+    <section id="home" className="bg-white py-20 px-6 md:px-10">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between">
         {/* Left Text Content */}
         <div className="w-full lg:w-1/2 text-center lg:text-left">
